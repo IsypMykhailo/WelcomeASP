@@ -1,0 +1,194 @@
+﻿@model IEnumerable<WelcomeASP.Data.Entities.trello.Column>
+@{
+    //ViewData["Title"] = "Trello" + Model.Title;
+    //ViewData["ParallaxTitle"] = "Trello" + Model.Title;
+    //ViewData["ParallaxText"] = "Trello e.t.c";
+}
+
+<partial name="Asentus/Parallax" />
+
+<div class="Bodydiv">
+    <div class="Onediv">
+        @foreach (var column in Model)
+        {
+            <div>
+                <a style="color:white;">
+                    <!-- asp-controller="Trello" asp-route-id="@column.Id"-->
+                    <header style="margin-bottom: 1rem; font-size: 22px; color:white">@Html.DisplayFor(Model => column.Title)</header>
+                </a>
+                <ul style="list-style-type: none;">
+                    @foreach (var card in column.Card)
+                    {
+                        <li>
+
+                            @Html.DisplayFor(Model => card.Title)
+                        </li>
+                    }
+                </ul>
+                <div>
+
+                    <button id="myBtn" class="btn btn-primary">Add card</button>
+
+                    <!-- Модальный -->
+                    <div id="myModal" class="modal">
+
+                        <!-- Модальное содержание -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <form asp-action="CreateCard">
+                                <input type="hidden" name="BoardId" value="@ViewBag.BoardId" />
+                                <input type="hidden" name="ColumnId" value="@column.Id" />
+                                <div class="form-group">
+                                    <label class="control-label">Заголовок карточки</label>
+                                    <input name="Title" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Тело карточки</label>
+                                    <input name="Body" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Create" class="btn btn-default" />
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <style>
+                        .modal {
+                            display: none; 
+                            position: fixed; 
+                            z-index: 1; 
+                            left: 0;
+                            top: 0;
+                            width: 100%; 
+                            height: 100%; 
+                            overflow: auto; 
+                            background-color: rgb(0,0,0); 
+                            background-color: rgba(0,0,0,0.4); 
+                        }
+
+                        .form-control{
+                            border: 1px solid black;
+                        }
+
+                        .modal-content {
+                            color: black;
+                            background-color: #fefefe;
+                            margin: 15% auto; 
+                            padding: 20px;
+                            border: 1px solid #888;
+                            width: 80%; 
+                        }
+
+                        .close {
+                            color: #808080;
+                            float: right;
+                            font-size: 28px;
+                            font-weight: bold;
+                        }
+
+                            .close:hover,
+                            .close:focus {
+                                color: black;
+                                text-decoration: none;
+                                cursor: pointer;
+                            }
+                    </style>
+
+                    <script>
+                        var modal = document.getElementById("myModal");
+
+                        var btn = document.getElementById("myBtn");
+
+                        var span = document.getElementsByClassName("close")[0];
+
+                        btn.onclick = function () {
+                            modal.style.display = "block";
+                        }
+
+                        span.onclick = function () {
+                            modal.style.display = "none";
+                        }
+
+                        window.onclick = function (event) {
+                            if (event.target == modal) {
+                                modal.style.display = "none";
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="Twodiv">
+        <form asp-action="CreateColumn">
+            <div class="form-group">
+                <input type="hidden" name="BoardId" value="@ViewBag.BoardId" />
+                <label class="control-label" style="text-align:center; font-size: 32px;"> Заголовок колонка </label>
+                <input name="Title" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+
+    <!--
+    <div >
+        <form asp-action="CreateCadr">
+            <div class="form-group">
+                <input type="hidden" name="ColumnId" value="@ViewBag.ColumnId" />
+                <label class="control-label"> Заголовок колонка </label>
+                <input name="Title" class="form-control" />
+                <input name="Body" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+    -->
+</div>
+
+
+
+<style>
+    .Bodydiv {
+        background: linear-gradient(to top left, azure, silver);
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+
+    .Onediv {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        font-size: 19px;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-left: 4rem;
+        margin-right: 4rem;
+        background: linear-gradient(to top left, PowderBlue, silver);
+        border-radius: 5px;
+        color: white;
+        border: 4px solid rgba(0,0,0,0.5);
+        list-style-type: armenian;
+    }
+
+    .Twodiv {
+        background: linear-gradient(to top left, silver, PowderBlue);
+        margin-top: 2rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        margin-left: 4rem;
+        margin-right: 4rem;
+        border-radius: 6px;
+        color: white;
+        border: 2px solid rgba(0,0,0,0.3);
+        list-style-type: none;
+    }
+</style>

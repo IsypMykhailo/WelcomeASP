@@ -1,0 +1,74 @@
+﻿@model IEnumerable<WelcomeASP.Data.Entities.trello.Board>
+
+@{
+    ViewData["Title"] = "Trello";
+    ViewData["ParallaxTitle"] = "Trello";
+    ViewData["ParallaxText"] = "Trello e.t.c";
+}
+<partial name="Asentus/Parallax" />
+
+<div class="Bodydiv">
+    <div class="Onediv">
+        @foreach (var item in Model)
+        {
+            <div>
+                <ul>
+                    <li class="Twodiv">
+                        <a asp-controller="Trello" asp-action="ShowColumns" asp-route-id="@item.Id" style="color: whitesmoke;">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
+
+        <div class="Twodiv" style=" padding-top: 2%; margin-left:4rem;">
+            <div>
+                <form asp-action="CreateBoard">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label" style="font-size:16px;"> Название новой доски </label>
+                        <input name="Title" class="form-control" style="text-align: center; margin-left: 4px; margin-right: 1px; width: 108px; height: 32px;"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-default" style="width:75px; height: 32px;"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    
+
+</div>
+
+
+<style>
+    .Bodydiv {
+        background: linear-gradient(to top left, silver, azure);
+    }
+    .Onediv {
+        display: flex;
+        flex-wrap: wrap;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+        text-align: center;
+        font-size: 25px;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-left: 18%;
+        margin-right: 22%;
+    }
+    .Twodiv {
+        background: linear-gradient(to top left, PowderBlue, silver);
+        width: 120px;
+        height: 170px;
+        border-radius: 5px;
+        padding-top: 15%;
+        color: white;
+        border: 2px solid rgba(0,0,0,0.5);
+        list-style-type: none;
+        padding-top: 7rem;
+    }
+</style>
+

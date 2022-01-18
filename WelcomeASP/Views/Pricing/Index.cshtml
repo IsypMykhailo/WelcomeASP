@@ -1,0 +1,20 @@
+﻿@model IEnumerable<WelcomeASP.Data.Entities.Pricing>
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["ParallaxTitle"] = "Pricing";
+    ViewData["ParallaxText"] = "Information e.t.c";
+}
+
+<partial name="Asentus/Parallax" />
+
+
+@foreach (var item in Model)
+{
+    <div>
+        @Html.DisplayFor(modelItem => item.Product)
+    </div>
+    <div>
+        @Html.DisplayFor(modelItem => item.Price)
+    </div>
+}
