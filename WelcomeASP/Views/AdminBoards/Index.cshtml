@@ -36,6 +36,10 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
+                @foreach(var t in item.Tags)
+                {
+                    <span>@t.Name</span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ImgUrl)

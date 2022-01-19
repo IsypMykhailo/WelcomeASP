@@ -22,7 +22,7 @@ namespace WelcomeASP.Controllers.Admin.Trello
         // GET: AdminBoards
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Boards.ToListAsync());
+            return View(await _context.Boards.Include(b=>b.Tags).ToListAsync());
         }
 
         // GET: AdminBoards/Details/5
@@ -46,6 +46,8 @@ namespace WelcomeASP.Controllers.Admin.Trello
         // GET: AdminBoards/Create
         public IActionResult Create()
         {
+            ViewData["TagsId"] = new MultiSelectList(_context.Tags, "Id", "Name");
+            ViewBag.TagsAll = _context.Tags;
             return View();
         }
 
@@ -54,8 +56,11 @@ namespace WelcomeASP.Controllers.Admin.Trello
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ImgUrl,Logo")] Board board)
+        public async Task<IActionResult> Create([Bind("Id,Title,ImgUrl,Logo")] Board board, Guid[] Tags)
         {
+            if (Tags != null)
+                board.Tags = _context.Tags.Where(t => Tags.Contains(t.Id)).ToList();
+
             if (ModelState.IsValid)
             {
                 board.Id = Guid.NewGuid();
